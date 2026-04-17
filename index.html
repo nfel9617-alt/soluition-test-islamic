@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الحل النموذجي - بكالوريا تجريبي علوم إسلامية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #065f46; /* لون أخضر داكن يعبر عن التصحيح */
+            --secondary-color: #059669;
+            --accent-color: #10b981;
+            --bg-color: #f0fdf4; /* خلفية خضراء فاتحة جدا */
+            --text-color: #1f2937;
+            --border-color: #a7f3d0;
+            --point-color: #dc2626; /* لون أحمر للنقاط */
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.8;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        button.active-btn {
+            background-color: var(--accent-color);
+            color: #fff;
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.5);
+        }
+
+        .exam-paper {
+            background: #fff;
+            padding: 40px;
+            border: 2px solid var(--border-color);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            border-radius: 8px;
+        }
+
+        header {
+            text-align: center;
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 26px;
+            margin: 5px 0;
+            font-weight: 800;
+            color: var(--primary-color);
+        }
+
+        header h2 {
+            font-size: 18px;
+            color: var(--secondary-color);
+            margin: 5px 0;
+        }
+
+        .solution-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .solution-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .topic-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: #fff;
+            background-color: var(--primary-color);
+            padding: 12px 20px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .part-title {
+            font-size: 20px;
+            color: var(--secondary-color);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 8px;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .answer-list {
+            list-style-type: decimal;
+            padding-right: 20px;
+        }
+
+        .answer-list > li {
+            margin-bottom: 25px;
+            font-size: 17px;
+            background: #f8fafc;
+            padding: 15px;
+            border-right: 4px solid var(--secondary-color);
+            border-radius: 5px;
+        }
+
+        .sub-answer {
+            list-style-type: lower-alpha;
+            padding-right: 25px;
+            margin-top: 15px;
+        }
+
+        .sub-answer li {
+            margin-bottom: 15px;
+            border: none;
+            background: none;
+            padding: 0;
+        }
+
+        .points-badge {
+            background-color: var(--point-color);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-right: 15px;
+            display: inline-block;
+            direction: rtl;
+        }
+
+        .step {
+            display: block;
+            margin-top: 8px;
+            color: #374151;
+            line-height: 1.9;
+        }
+
+        .fraction {
+            display: inline-block;
+            text-align: center;
+            vertical-align: middle;
+            margin: 0 5px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        .fraction > span {
+            display: block;
+            padding: 2px;
+        }
+        .fraction span.fdn {
+            border-top: 2px solid var(--primary-color);
+        }
+
+        .table-mirath {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            text-align: center;
+            background-color: #fff;
+        }
+
+        .table-mirath th, .table-mirath td {
+            border: 1px solid var(--border-color);
+            padding: 10px;
+        }
+
+        .table-mirath th {
+            background-color: var(--primary-color);
+            color: #fff;
+        }
+
+        /* إعدادات الطباعة */
+        @media print {
+            body { background-color: #fff; padding: 0; }
+            .container { max-width: 100%; }
+            .controls { display: none; }
+            .exam-paper { box-shadow: none; border: none; padding: 0; }
+            .solution-section { display: block !important; page-break-before: always; }
+            .solution-section:first-of-type { page-break-before: auto; }
+            .answer-list > li { background: transparent; border-right: 2px solid #000; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="controls">
+            <button id="btn-sol1" class="active-btn" onclick="showSolution(1)">التصحيح: الموضوع الأول (الميراث)</button>
+            <button id="btn-sol2" onclick="showSolution(2)">التصحيح: الموضوع الثاني (الربا)</button>
+            <button onclick="window.print()" style="background-color: #374151;">طباعة التصحيح 🖨️</button>
+        </div>
+
+        <div class="exam-paper">
+            <header>
+                <h1>التصحيح النموذجي وسلم التنقيط</h1>
+                <h2>مادة العلوم الإسلامية - بكالوريا تجريبي - منصة نوفل</h2>
+            </header>
+
+            <div id="sol1" class="solution-section active">
+                <div class="topic-title">
+                    <span>التصحيح النموذجي للموضوع الأول</span>
+                    <span>المجموع: 20 نقطة</span>
+                </div>
+                
+                <div class="part-title">الجزء الأول: (12 نقطة)</div>
+                <ol class="answer-list">
+                    <li><strong>العقيدة (استخراج الوسيلة وشرحها):</strong> <span class="points-badge">2.0 ن</span>
+                        <span class="step">- <strong>الوسيلة:</strong> رسم صور الكافرين المنفرة (من قوله: ﴿فَسَوْفَ نُصْلِيهِ نَارًا﴾) أو التذكير بمراقبة الله لخلقه (من قوله: ﴿إِنَّ اللَّهَ كَانَ بِكُمْ رَحِيمًا﴾). <span style="color: var(--point-color);">(1.0 ن)</span></span>
+                        <span class="step">- <strong>الشرح:</strong> (يكتفى بشرح الوسيلة المستخرجة) <br>
+                        * رسم صور الكافرين: يعرض القرآن صفات الكافرين وأفعالهم القبيحة ومآلهم في النار، فينفر العقل منها ويبتعد عنها. <span style="color: var(--point-color);">(1.0 ن)</span><br>
+                        * التذكير بمراقبة الله: تذكير الإنسان بأن الله مطلع على سره وعلنه، مما يوقظ الضمير ويستحيي من عصيانه.</span>
+                    </li>
+                    
+                    <li><strong>الانحراف والجريمة:</strong>
+                        <ul class="sub-answer">
+                            <li><strong>أ) نوع الجريمة وعقوبتها:</strong> <span class="points-badge">2.0 ن</span>
+                                <span class="step">- <strong>نوع الجريمة:</strong> القصاص (جناية على النفس). <span style="color: var(--point-color);">(1.0 ن)</span></span>
+                                <span class="step">- <strong>عقوبتها الأصلية:</strong> القصاص (الإعدام). (ملاحظة: الدية عقوبة بدلية وليست أصلية). <span style="color: var(--point-color);">(1.0 ن)</span></span>
+                            </li>
+                            <li><strong>ب) المقصد الشرعي وقسمه:</strong> <span class="points-badge">2.0 ن</span>
+                                <span class="step">- <strong>المقصد:</strong> حفظ النفس (من تحريم القتل)، وحفظ المال (من تحريم أكل أموال الناس بالباطل). <span style="color: var(--point-color);">(1.0 ن)</span></span>
+                                <span class="step">- <strong>قسمه:</strong> يندرجان ضمن المقاصد الضرورية. <span style="color: var(--point-color);">(1.0 ن)</span></span>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li><strong>القيم (الاستخراج، النوع، الأثر):</strong> <span class="points-badge">2.0 ن</span>
+                        <span class="step">- <strong>القيمة:</strong> الرحمة (من قوله: رحيما) أو الأمانة/العدل (من قوله: تجارة عن تراض). <span style="color: var(--point-color);">(0.5 ن)</span></span>
+                        <span class="step">- <strong>نوعها:</strong> فردية (للرحمة) أو اجتماعية (للأمانة/العدل). <span style="color: var(--point-color);">(0.5 ن)</span></span>
+                        <span class="step">- <strong>أثرها:</strong> نشر المحبة والتكافل، زرع الثقة بين الناس، تحقيق الاستقرار والطمأنينة النفسية. <span style="color: var(--point-color);">(1.0 ن)</span></span>
+                    </li>
+
+                    <li><strong>الوقف (التعريف والمقارنة):</strong>
+                        <ul class="sub-answer">
+                            <li><strong>أ) التعريف:</strong> <span class="points-badge">2.0 ن</span>
+                                <span class="step">- <strong>لغة:</strong> الحبس والمنع. <span style="color: var(--point-color);">(1.0 ن)</span></span>
+                                <span class="step">- <strong>اصطلاحاً:</strong> حبس الأصل (العين) وتسبيل المنفعة (الثمرة) تقرباً إلى الله تعالى. <span style="color: var(--point-color);">(1.0 ن)</span></span>
+                            </li>
+                            <li><strong>ب) المقارنة بين الوقف والوصية:</strong> <span class="points-badge">2.0 ن</span>
+                                <span class="step">- <strong>من حيث المقدار:</strong> الوقف يجوز في كل المال أو جزء منه، أما الوصية فلا تتجاوز الثلث (1/3) إلا بإجازة الورثة. <span style="color: var(--point-color);">(1.0 ن)</span></span>
+                                <span class="step">- <strong>من حيث الرجوع:</strong> الوقف عقد لازم لا يجوز الرجوع فيه (بمجرد إبرامه)، بينما الوصية يجوز للموصي الرجوع فيها أو تعديلها في حياته. <span style="color: var(--point-color);">(1.0 ن)</span></span>
+                            </li>
+                        </ul>
+                    </li>
+                </ol>
+
+                <div class="part-title">الجزء الثاني: دراسة مسألة الميراث (08 نقاط)</div>
+                <ol class="answer-list">
+                    <li><strong>الحقوق المتعلقة بالتركة (مرتبة):</strong> <span class="points-badge">1.5 ن</span>
+                        <span class="step">
+                            1. مؤن تجهيز الميت (الدفن والكفن). <span style="color: var(--point-color);">(0.25 ن)</span><br>
+                            2. قضاء الديون (العينية والشخصية). <span style="color: var(--point-color);">(0.5 ن)</span><br>
+                            3. تنفيذ الوصية (في حدود الثلث). <span style="color: var(--point-color);">(0.5 ن)</span><br>
+                            4. قسمة الميراث على الورثة. <span style="color: var(--point-color);">(0.25 ن)</span>
+                        </span>
+                    </li>
+                    
+                    <li><strong>تحديد الوارثين من غير الوارثين:</strong> <span class="points-badge">1.0 ن</span>
+                        <span class="step">- <strong>الوارثون:</strong> الزوجة، البنتان، الأم، الأخ الشقيق. <span style="color: var(--point-color);">(1.0 ن)</span></span>
+                        <span class="step">- <strong>غير الوارثين (المحجوبون):</strong> لا يوجد.</span>
+                    </li>
+
+                    <li><strong>تحديد الأنصبة الشرعية مع التعليل:</strong> <span class="points-badge">3.0 ن</span>
+                        <span class="step">- <strong>الزوجة:</strong> الثمن <span class="fraction"><span>1</span><span class="fdn">8</span></span> فرضاً، لوجود الفرع الوارث (البنتان). <span style="color: var(--point-color);">(0.75 ن)</span></span>
+                        <span class="step">- <strong>البنتان:</strong> الثلثان <span class="fraction"><span>2</span><span class="fdn">3</span></span> فرضاً، للتعدد وعدم وجود المعصب (الابن). <span style="color: var(--point-color);">(0.75 ن)</span></span>
+                        <span class="step">- <strong>الأم:</strong> السدس <span class="fraction"><span>1</span><span class="fdn">6</span></span> فرضاً، لوجود الفرع الوارث. <span style="color: var(--point-color);">(0.75 ن)</span></span>
+                        <span class="step">- <strong>الأخ الشقيق:</strong> الباقي (عصبة بالنفس)، لعدم وجود حاجب (الأب أو الفرع الوارث الذكر). <span style="color: var(--point-color);">(0.75 ن)</span></span>
+                    </li>
+
+                    <li><strong>حساب المبلغ المستحق لكل وارث:</strong> <span class="points-badge">2.5 ن</span>
+                        <span class="step">- أصل المسألة من: <strong>24</strong> (المضاعف المشترك الأصغر للمقامات 8، 3، 6). <span style="color: var(--point-color);">(0.5 ن)</span></span>
+                        <span class="step">- قيمة السهم الواحد: 480,000 دج ÷ 24 = <strong>20,000 دج</strong>. <span style="color: var(--point-color);">(0.5 ن)</span></span>
+                        
+                        <table class="table-mirath">
+                            <tr>
+                                <th>الوارث</th>
+                                <th>النصيب</th>
+                                <th>عدد الأسهم</th>
+                                <th>العملية الحسابية (المبلغ المستحق)</th>
+                            </tr>
+                            <tr>
+                                <td>الزوجة</td>
+                                <td>1/8</td>
+                                <td>3</td>
+                                <td>3 × 20,000 = <strong>60,000 دج</strong> <span style="color: var(--point-color);">(0.25 ن)</span></td>
+                            </tr>
+                            <tr>
+                                <td>البنتان</td>
+                                <td>2/3</td>
+                                <td>16</td>
+                                <td>16 × 20,000 = <strong>320,000 دج</strong> (لكل بنت 160,000 دج) <span style="color: var(--point-color);">(0.5 ن)</span></td>
+                            </tr>
+                            <tr>
+                                <td>الأم</td>
+                                <td>1/6</td>
+                                <td>4</td>
+                                <td>4 × 20,000 = <strong>80,000 دج</strong> <span style="color: var(--point-color);">(0.25 ن)</span></td>
+                            </tr>
+                            <tr>
+                                <td>الأخ الشقيق</td>
+                                <td>عصبة (الباقي)</td>
+                                <td>1</td>
+                                <td>1 × 20,000 = <strong>20,000 دج</strong> <span style="color: var(--point-color);">(0.5 ن)</span></td>
+                            </tr>
+                        </table>
+                    </li>
+                </ol>
+            </div>
+
+            <div id="sol2" class="solution-section">
+                <div class="topic-title">
+                    <span>التصحيح النموذجي للموضوع الثاني</span>
+                    <span>المجموع: 20 نقطة</span>
+                </div>
+                
+                <div class="part-title">الجزء الأول: (12 نقطة)</div>
+                <ol class="answer-list">
+                    <li><strong>حماية العقيدة للعقل من الانحرافات (الشرك والسحر):</strong> <span class="points-badge">2.0 ن</span>
+                        <span class="step">تساهم العقيدة الإسلامية في حماية العقل من خلال: <br>
+                        - ربط العقل بالحقائق الإيمانية الثابتة والاعتماد على الدليل والبرهان. <span style="color: var(--point-color);">(1.0 ن)</span><br>
+                        - تحرير العقل من الخرافات والأوهام (كالسحر والكهانة) والتقليد الأعمى، وتوجيهه للتفكر في ملكوت الله. <span style="color: var(--point-color);">(1.0 ن)</span></span>
+                    </li>
+                    
+                    <li><strong>الوقف والقيم:</strong>
+                        <ul class="sub-answer">
+                            <li><strong>أ) آثار الوقف:</strong> <span class="points-badge">2.0 ن</span>
+                                <span class="step">- <strong>أثر اقتصادي:</strong> تمويل المشاريع الاستثمارية، القضاء على البطالة، تداول الثروة. <span style="color: var(--point-color);">(1.0 ن)</span></span>
+                                <span class="step">- <strong>أثر اجتماعي:</strong> التكافل الاجتماعي، القضاء على الفقر والآفات الاجتماعية، بناء المدارس والمستشفيات. <span style="color: var(--point-color);">(1.0 ن)</span></span>
+                            </li>
+                            <li><strong>ب) القيمة والأثر:</strong> <span class="points-badge">2.0 ن</span>
+                                <span class="step">- <strong>القيمة:</strong> الكرم / الجود / الإخلاص / التعاون (من قوله: يُنفِقُونَ أَمْوَالَهُمْ فِي سَبِيلِ اللَّهِ). <span style="color: var(--point-color);">(1.0 ن)</span></span>
+                                <span class="step">- <strong>أثرها على الفرد:</strong> تطهير النفس من الشح والبخل، نيل الأجر العظيم ومضاعفة الحسنات، الشعور بالرضا والطمأنينة. <span style="color: var(--point-color);">(1.0 ن)</span></span>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li><strong>الانحراف والجريمة:</strong>
+                        <ul class="sub-answer">
+                            <li><strong>أ) منهج الإسلام في محاربتها:</strong> <span class="points-badge">4.0 ن</span>
+                                <span class="step">- <strong>الجانب الوقائي:</strong> تقوية الإيمان والوازع الديني، الحث على العبادات والأخلاق، الأمر بالمعروف والنهي عن المنكر. <span style="color: var(--point-color);">(2.0 ن)</span></span>
+                                <span class="step">- <strong>الجانب العلاجي:</strong> تشريع العقوبات الزاجرة (القصاص، الحدود، التعزير) لتطبيقها على المخالفين. <span style="color: var(--point-color);">(2.0 ن)</span></span>
+                            </li>
+                            <li><strong>ب) خصائص العقوبات:</strong> <span class="points-badge">2.0 ن</span>
+                                <span class="step">يُذكر اثنان مما يلي: <span style="color: var(--point-color);">(1.0 ن لكل خصيصة)</span><br>
+                                1. شرعية العقوبة (لا جريمة ولا عقوبة إلا بنص). <br>
+                                2. المساواة في العقوبة (لا فرق بين غني وفقير). <br>
+                                3. العدالة (العقوبة على الجاني فقط). <br>
+                                4. الرحمة (درء الحدود بالشبهات).
+                                </span>
+                            </li>
+                        </ul>
+                    </li>
+                </ol>
+
+                <div class="part-title">الجزء الثاني: دراسة مسائل الربا (08 نقاط)</div>
+                <ol class="answer-list">
+                    <li><strong>استخراج المعاملات الربوية:</strong> <span class="points-badge">1.0 ن</span>
+                        <span class="step">- <strong>الحالة الأولى:</strong> مبادلة 50غ ذهب قديم بـ 40غ ذهب جديد مع التقابض. <span style="color: var(--point-color);">(0.5 ن)</span></span>
+                        <span class="step">- <strong>الحالة الثانية:</strong> إقراض 100,000 دج واشتراط ردها 110,000 دج بعد مدة. <span style="color: var(--point-color);">(0.5 ن)</span></span>
+                    </li>
+                    
+                    <li><strong>نوع الربا والتعليل والتكييف:</strong> <span class="points-badge">4.0 ن</span>
+                        <span class="step">- <strong>الحالة الأولى:</strong> <br>
+                        * <strong>النوع:</strong> ربا الفضل. <span style="color: var(--point-color);">(0.5 ن)</span><br>
+                        * <strong>التعليل (التكييف):</strong> مبادلة صنف ربوي بجنسه (ذهب بذهب) مع التفاضل في المقدار (50غ مقابل 40غ) رغم توفر شرط التقابض الفوري. وهذا محرم شرعاً والجودة (قديم/جديد) ملغاة في الشرع. <span style="color: var(--point-color);">(1.5 ن)</span></span>
+                        
+                        <span class="step">- <strong>الحالة الثانية:</strong> <br>
+                        * <strong>النوع:</strong> ربا الديون (ربا النسيئة / القروض). <span style="color: var(--point-color);">(0.5 ن)</span><br>
+                        * <strong>التعليل (التكييف):</strong> وجود زيادة مشروطة في عقد القرض (10,000 دج) مقابل الأجل (الزمن)، و"كل قرض جر نفعاً فهو ربا". وهذا محرم شرعاً. <span style="color: var(--point-color);">(1.5 ن)</span></span>
+                    </li>
+
+                    <li><strong>العلة والدليل الشرعي:</strong> <span class="points-badge">2.0 ن</span>
+                        <span class="step">- <strong>العلة في تحريم مبادلة الذهب:</strong> الثمنية. (ملاحظة: الذهب والفضة والعملات النقدية علتها الثمنية). <span style="color: var(--point-color);">(1.0 ن)</span></span>
+                        <span class="step">- <strong>الدليل من السنة:</strong> قوله ﷺ: «الذَّهَبُ بِالذَّهَبِ، وَالْفِضَّةُ بِالْفِضَّةِ... مِثْلًا بِمِثْلٍ، سَوَاءً بِسَوَاءٍ، يَدًا بِيَدٍ، فَإِذَا اخْتَلَفَتْ هَذِهِ الْأَصْنَافُ، فَبِيعُوا كَيْفَ شِئْتُمْ، إِذَا كَانَ يَدًا بِيَدٍ». <span style="color: var(--point-color);">(1.0 ن)</span></span>
+                    </li>
+
+                    <li><strong>البديل الشرعي لمعاملة عمر:</strong> <span class="points-badge">1.0 ن</span>
+                        <span class="step">- بما أن صديقه يمر بضائقة مالية، فالبديل الشرعي الذي يحقق التكافل هو <strong>القرض الحسن</strong> (بأن يقرضه 100 ألف ويردها 100 ألف دون زيادة)، أو التصدق عليه إن كان معسراً. <span style="color: var(--point-color);">(1.0 ن)</span> (لا تقبل بدائل الاستثمار كالمضاربة هنا لأن الغرض هو تفريج الكربة وليس التجارة).</span>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showSolution(topicNumber) {
+            // إخفاء جميع الحلول
+            document.querySelectorAll('.solution-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // إزالة التنسيق النشط من الأزرار
+            document.querySelectorAll('.controls button').forEach(btn => {
+                btn.classList.remove('active-btn');
+            });
+            
+            // إظهار الحل المطلوب وتحديد الزر
+            document.getElementById('sol' + topicNumber).classList.add('active');
+            document.getElementById('btn-sol' + topicNumber).classList.add('active-btn');
+        }
+    </script>
+</body>
+</html>
